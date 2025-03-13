@@ -1,13 +1,14 @@
-.list-group {
+.listGroup {
   list-style: none;
-  padding: 0;
+  padding: 23;
   margin: 0;
 }
 
-.list-group-item {
+.listGroupItem {
   padding: 5px 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
+  background-color: red;
 }
 
