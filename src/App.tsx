@@ -1,8 +1,8 @@
-import { FiBellOff } from "react-icons/fi";
+import Button from "./components/Button";
 function App() {
   return (
     <div>
-      <FiBellOff color="red" size={500} />
+      <Button text="Click me" onClick={() => console.log("clicked")} />
     </div>
   );
 }

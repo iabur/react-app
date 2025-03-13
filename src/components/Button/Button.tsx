@@ -1,3 +1,5 @@
+import styles from "./Button.module.css";
+
 interface ButtonProps {
   text: string;
   color?: "primary" | "secondary" | "success";
@@ -6,7 +8,7 @@ interface ButtonProps {
 
 function Button({ text, color = "primary", onClick }: ButtonProps) {
   return (
-    <button className={`btn btn-${color}`} onClick={onClick}>
+    <button className={styles.button} onClick={onClick}>
       {text}
     </button>
   );
