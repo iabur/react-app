@@ -1,20 +1,11 @@
-import { useState } from "react";
-import Navbar from "./components/Navbar";
-import Card from "./components/Card";
-let count = 3;
+import ExpandableText from "./components/ExpandableText";
+
+const lorem500 =
+  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, consequuntur necessitatibus sapiente quibusdam voluptates minus natus, enim illum saepe eius corrupti accusamus animi, rerum placeat voluptate reiciendis optio nihil vel delectus. Doloribus asperiores voluptatum, ducimus vero obcaecati sapiente error suscipit minus placeat rerum delectus enim veniam mollitia iste dolorem officiis?";
 function App() {
-  const [items, setItems] = useState(["item1 ", "item2 "]);
-
-  const handleClick = () => {
-    setItems([...items, " item " + count]);
-    count++;
-  };
-
   return (
     <div>
-      <Navbar itemsCount={items.length} />
-      <Card items={items} />
-      <button onClick={handleClick}>Add Item</button>
+      <ExpandableText text={lorem500} maxLength={10} />
     </div>
   );
 }
