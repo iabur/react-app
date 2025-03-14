@@ -1,12 +1,15 @@
 import { useState } from "react";
-import Message from "./Message";
+import { produce } from "immer";
 
 function App() {
   const [student, setStudent] = useState(["Iabur ", "Rakib ", "Probal "]);
 
   const handleClick = () => {
-    setStudent(student.map((student) => student + " Rakib"));
-    setStudent(student.filter((student) => student !== "Iabur "));
+    setStudent(
+      produce((draft) => {
+        draft.push("Rakib");
+      })
+    );
   };
 
   return (
