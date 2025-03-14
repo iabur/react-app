@@ -1,8 +1,14 @@
-import Like from "./components/Like";
+import { useState } from "react";
 function App() {
+  const [persion, setPersion] = useState({
+    firstName: "John",
+    lastName: "Doe",
+    age: 20,
+  });
+
   return (
     <div>
-      <Like />
+      {persion.firstName} {persion.lastName}
     </div>
   );
 }
