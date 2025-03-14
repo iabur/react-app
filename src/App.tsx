@@ -2,19 +2,27 @@ import { useState } from "react";
 import Message from "./Message";
 
 function App() {
-  const [drink, setDrink] = useState({
-    title: "Coke",
-    price: 10,
+  const [customer, setCustomer] = useState({
+    name: "John",
+    age: 20,
+    address: {
+      city: "New York",
+      state: "NY",
+      zip: "10001",
+    },
   });
 
   const handleClick = () => {
-    setDrink({ ...drink, price: 5 });
+    setCustomer({
+      ...customer,
+      address: { ...customer.address, city: "Los Angeles" },
+    });
   };
 
   return (
     <div>
-      <h1>{drink.price}</h1>
-      <button onClick={handleClick}>Change Drink</button>
+      <h1>{customer.address.city}</h1>
+      <button onClick={handleClick}>Customer</button>
     </div>
   );
 }
