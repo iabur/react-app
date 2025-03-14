@@ -2,23 +2,19 @@ import { useState } from "react";
 import Message from "./Message";
 
 function App() {
-  const [persion, setPersion] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    age: 20,
+  const [drink, setDrink] = useState({
+    title: "Coke",
+    price: 10,
   });
+
+  const handleClick = () => {
+    setDrink({ ...drink, price: 5 });
+  };
 
   return (
     <div>
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      <Message />
-      {persion.firstName} {persion.lastName}
+      <h1>{drink.price}</h1>
+      <button onClick={handleClick}>Change Drink</button>
     </div>
   );
 }
