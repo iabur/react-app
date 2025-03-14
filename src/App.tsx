@@ -1,21 +1,20 @@
 import { useState } from "react";
-import { produce } from "immer";
-
+import Navbar from "./components/Navbar";
+import Card from "./components/Card";
+let count = 3;
 function App() {
-  const [student, setStudent] = useState(["Iabur ", "Rakib ", "Probal "]);
+  const [items, setItems] = useState(["item1 ", "item2 "]);
 
   const handleClick = () => {
-    setStudent(
-      produce((draft) => {
-        draft.push("Rakib");
-      })
-    );
+    setItems([...items, " item " + count]);
+    count++;
   };
 
   return (
     <div>
-      <h1>{student.map((student) => student)}</h1>
-      <button onClick={handleClick}>Student</button>
+      <Navbar itemsCount={items.length} />
+      <Card items={items} />
+      <button onClick={handleClick}>Add Item</button>
     </div>
   );
 }
