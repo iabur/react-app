@@ -1,6 +1,8 @@
-//function component
+let coutn = 0;
+
 function Message() {
-  return <h1>Hello World</h1>;
+  coutn++;
+  return <h1>Hello World {coutn}</h1>;
 }
 
 export default Message;

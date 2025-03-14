@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Message from "./Message";
+
 function App() {
   const [persion, setPersion] = useState({
     firstName: "John",
@@ -8,6 +10,14 @@ function App() {
 
   return (
     <div>
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
       {persion.firstName} {persion.lastName}
     </div>
   );
