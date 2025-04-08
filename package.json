@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
     "@types/styled-components": "^5.1.34",
+    "axios": "^1.8.4",
     "bootstrap": "^5.3.3",
     "immer": "^10.1.1",
     "react": "^19.0.0",

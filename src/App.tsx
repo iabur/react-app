@@ -1,20 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+interface User {
+  id: number;
+  name: string;
+}
 
 function App() {
-  const connect = () => console.log("connecting to server");
-  const disconnect = () => console.log("disconnecting from server");
-  useEffect(() => {
-    connect();
-    // Cleanup function to disconnect from the server
-    // when the component unmounts
-    // or when the dependencies change
-    // This is important to prevent memory leaks
-    // and to ensure that the connection is closed properly
+  const [users, setUsers] = useState<User[]>([]);
 
-    return () => disconnect();
+  useEffect(() => {
+    axios.get("https://jsonplaceholder.typicode.com/users").then((response) => {
+      setUsers(response.data);
+    });
   }, []);
 
-  return <div>Chat server</div>;
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
 }
 
 export default App;
