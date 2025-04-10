@@ -15,6 +15,7 @@ function App() {
       .get<User[]>("https://jsonplaceholder.typicode.com/ausers")
       .then((response) => {
         setUsers(response.data);
+        console.log(users);
       })
       .catch((error) => {
         setError(error.message);
