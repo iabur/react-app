@@ -43,6 +43,20 @@ function App() {
       });
   };
 
+  const addUser = () => {
+    const originalUsers = [...users];
+    const newUser = { id: 0, name: "iabur" }
+    setUsers([newUser, ...users]);
+
+    axios.post("https://jsonplaceholder.typicode.com/users", newUser)
+      .then(({ data: savedUser }) => {
+        setUsers([savedUser, ...users]);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setUsers(originalUsers);
+      });
+  }
   return (
     <>
       {error && <div className="text-danger">{error}</div>}
@@ -53,6 +67,7 @@ function App() {
           </div>
         </div>
       )}
+      <button className="btn btn-primary m-3" onClick={addUser}>Add User</button>
       <ul className="list-group">
         {users.map((user) => (
           <li key={user.id} className="list-group-item d-flex justify-content-between">
