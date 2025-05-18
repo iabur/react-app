@@ -57,6 +57,18 @@ function App() {
         setUsers(originalUsers);
       });
   }
+
+  const handleUpdate = (user: User) => {
+    const originalUsers = [...users];
+    const updatedUser = { ...user, name: user.name + "!" };
+    setUsers(users.map((u) => u.id === user.id ? updatedUser : u));
+    axios.patch(`https://jsonplaceholder.typicode.com/users/${user.id}`, updatedUser)
+      .catch((error) => {
+        setError(error.message);
+        setUsers(originalUsers);
+      });
+  }
+
   return (
     <>
       {error && <div className="text-danger">{error}</div>}
@@ -71,7 +83,11 @@ function App() {
       <ul className="list-group">
         {users.map((user) => (
           <li key={user.id} className="list-group-item d-flex justify-content-between">
-            {user.name} <button className="btn btn-outline-danger" onClick={() => handleDelete(user)}>Delete</button>
+            {user.name}
+            <div>
+              <button className="btn btn-outline-secondary mx-1" onClick={() => handleUpdate(user)}>Update</button>
+              <button className="btn btn-outline-danger" onClick={() => handleDelete(user)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>
