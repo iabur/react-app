@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient, { AxiosError } from "./services/api-client";
+import { AxiosError } from "axios";
 import userService, { User } from "./services/user-service";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true);
-    const { request, cancel } = userService.getAllUsers();
+    const { request, cancel } = userService.getAll<User>();
     request
       .then((res) => {
         setUsers(res.data);
@@ -29,7 +29,7 @@ function App() {
   const handleDelete = (user: User) => {
     const originalUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
-    userService.deleteUser(user.id).catch((err) => {
+    userService.delete(user.id).catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
     });
@@ -40,7 +40,7 @@ function App() {
     const newUser = { id: 0, name: "iabur" };
     setUsers([newUser, ...users]);
 
-    userService.createUser(newUser).catch((err) => {
+    userService.create(newUser).catch((err) => {
       setError(err.message);
       setUsers(originalUsers);
     });
@@ -50,7 +50,7 @@ function App() {
     const originalUsers = [...users];
     const updatedUser = { ...user, name: user.name + "!" };
     setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
-    userService.updateUser(updatedUser).catch((error: AxiosError) => {
+    userService.update(updatedUser).catch((error: AxiosError) => {
       setError(error.message);
       setUsers(originalUsers);
     });
