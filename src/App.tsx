@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-import apiClient, { AxiosError } from "./components/services/api-client";
-
-interface User {
-  id: number;
-  name: string;
-}
+import apiClient, { AxiosError } from "./services/api-client";
+import userService, { User } from "./services/user-service";
 
 function App() {
   const [users, setUsers] = useState<User[]>([]);
@@ -13,11 +9,8 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true);
-    const controller = new AbortController();
-    apiClient
-      .get<User[]>("/users", {
-        signal: controller.signal,
-      })
+    const { request, cancel } = userService.getAllUsers();
+    request
       .then((res) => {
         setUsers(res.data);
         setIsLoading(false);
@@ -29,45 +22,39 @@ function App() {
       });
 
     return () => {
-      controller.abort();
+      cancel();
     };
   }, []);
 
   const handleDelete = (user: User) => {
     const originalUsers = [...users];
     setUsers(users.filter((u) => u.id !== user.id));
-    apiClient.delete(`/users/${user.id}`)
-      .catch((err) => {
-        setError(err.message);
-        setUsers(originalUsers);
-      });
+    userService.deleteUser(user.id).catch((err) => {
+      setError(err.message);
+      setUsers(originalUsers);
+    });
   };
 
   const addUser = () => {
     const originalUsers = [...users];
-    const newUser = { id: 0, name: "iabur" }
+    const newUser = { id: 0, name: "iabur" };
     setUsers([newUser, ...users]);
 
-    apiClient.post("/users", newUser)
-      .then(({ data: savedUser }) => {
-        setUsers([savedUser, ...users]);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setUsers(originalUsers);
-      });
-  }
+    userService.createUser(newUser).catch((err) => {
+      setError(err.message);
+      setUsers(originalUsers);
+    });
+  };
 
   const handleUpdate = (user: User) => {
     const originalUsers = [...users];
     const updatedUser = { ...user, name: user.name + "!" };
-    setUsers(users.map((u) => u.id === user.id ? updatedUser : u));
-    apiClient.patch(`/users/${user.id}`, updatedUser)
-      .catch((error: AxiosError) => {
-        setError(error.message);
-        setUsers(originalUsers);
-      });
-  }
+    setUsers(users.map((u) => (u.id === user.id ? updatedUser : u)));
+    userService.updateUser(updatedUser).catch((error: AxiosError) => {
+      setError(error.message);
+      setUsers(originalUsers);
+    });
+  };
 
   return (
     <>
@@ -79,14 +66,29 @@ function App() {
           </div>
         </div>
       )}
-      <button className="btn btn-primary m-3" onClick={addUser}>Add User</button>
+      <button className="btn btn-primary m-3" onClick={addUser}>
+        Add User
+      </button>
       <ul className="list-group">
         {users.map((user) => (
-          <li key={user.id} className="list-group-item d-flex justify-content-between">
+          <li
+            key={user.id}
+            className="list-group-item d-flex justify-content-between"
+          >
             {user.name}
             <div>
-              <button className="btn btn-outline-secondary mx-1" onClick={() => handleUpdate(user)}>Update</button>
-              <button className="btn btn-outline-danger" onClick={() => handleDelete(user)}>Delete</button>
+              <button
+                className="btn btn-outline-secondary mx-1"
+                onClick={() => handleUpdate(user)}
+              >
+                Update
+              </button>
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => handleDelete(user)}
+              >
+                Delete
+              </button>
             </div>
           </li>
         ))}
